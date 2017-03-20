@@ -19,7 +19,7 @@ from keras.layers.advanced_activations import LeakyReLU
 from keras.layers.normalization import BatchNormalization
 from keras.models import Model
 from keras.regularizers import l2
-from keras.utils.vis_utils import plot_model as plot
+from keras.utils.visualize_util import plot
 
 from yad2k.models.keras_yolo import (space_to_depth_x2,
                                      space_to_depth_x2_output_shape)
@@ -56,8 +56,8 @@ def unique_config_sections(config_file):
                 _section = section + '_' + str(section_counters[section])
                 section_counters[section] += 1
                 line = line.replace(section, _section)
-            output_stream.write(line)
-    output_stream.seek(0)
+            output_stream.write(unicode(line))
+    output_stream.seek(0,0)
     return output_stream
 
 
@@ -263,7 +263,7 @@ def _main(args):
 
     if 'region' in cfg_parser.sections():
         with open('{}_anchors.txt'.format(output_root), 'w') as f:
-            print(anchors, file=f)
+            print(anchors, f)
 
     if args.plot_model:
         plot(model, to_file='{}.png'.format(output_root), show_shapes=True)

@@ -111,16 +111,16 @@ def _main(args):
     boxes, scores, classes = yolo_eval(
         yolo_outputs,
         input_image_shape,
-        score_threshold=args.score_threshold,
-        iou_threshold=args.iou_threshold)
+        score_threshold=0.3,
+        iou_threshold=0.6)
 
     for image_file in os.listdir(test_path):
         try:
-            image_type = imghdr.what(os.path.join(test_path, image_file))
-            if not image_type:
-                continue
-        except IsADirectoryError:
-            continue
+	        image_type = imghdr.what(os.path.join(test_path, image_file))
+        	if not image_type:
+             		continue
+       	except IOError:
+        	continue
 
         image = Image.open(os.path.join(test_path, image_file))
         if is_fixed_size:  # TODO: When resizing we can use minibatch input.
